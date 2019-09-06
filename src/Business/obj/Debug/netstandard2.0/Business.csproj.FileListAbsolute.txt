@@ -1,0 +1,9 @@
+/home/pedroca/projects/c#/api/src/Business/bin/Debug/netstandard2.0/Business.deps.json
+/home/pedroca/projects/c#/api/src/Business/bin/Debug/netstandard2.0/Business.dll
+/home/pedroca/projects/c#/api/src/Business/bin/Debug/netstandard2.0/Business.pdb
+/home/pedroca/projects/c#/api/src/Business/obj/Debug/netstandard2.0/Business.csprojAssemblyReference.cache
+/home/pedroca/projects/c#/api/src/Business/obj/Debug/netstandard2.0/Business.csproj.CoreCompileInputs.cache
+/home/pedroca/projects/c#/api/src/Business/obj/Debug/netstandard2.0/Business.AssemblyInfoInputs.cache
+/home/pedroca/projects/c#/api/src/Business/obj/Debug/netstandard2.0/Business.AssemblyInfo.cs
+/home/pedroca/projects/c#/api/src/Business/obj/Debug/netstandard2.0/Business.dll
+/home/pedroca/projects/c#/api/src/Business/obj/Debug/netstandard2.0/Business.pdb

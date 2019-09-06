@@ -1,0 +1,14 @@
+/home/pedroca/projects/c#/api/src/Data/bin/Debug/netcoreapp2.2/Data.deps.json
+/home/pedroca/projects/c#/api/src/Data/bin/Debug/netcoreapp2.2/Data.runtimeconfig.json
+/home/pedroca/projects/c#/api/src/Data/bin/Debug/netcoreapp2.2/Data.runtimeconfig.dev.json
+/home/pedroca/projects/c#/api/src/Data/bin/Debug/netcoreapp2.2/Data.dll
+/home/pedroca/projects/c#/api/src/Data/bin/Debug/netcoreapp2.2/Data.pdb
+/home/pedroca/projects/c#/api/src/Data/bin/Debug/netcoreapp2.2/Business.dll
+/home/pedroca/projects/c#/api/src/Data/bin/Debug/netcoreapp2.2/Business.pdb
+/home/pedroca/projects/c#/api/src/Data/obj/Debug/netcoreapp2.2/Data.csprojAssemblyReference.cache
+/home/pedroca/projects/c#/api/src/Data/obj/Debug/netcoreapp2.2/Data.csproj.CoreCompileInputs.cache
+/home/pedroca/projects/c#/api/src/Data/obj/Debug/netcoreapp2.2/Data.AssemblyInfoInputs.cache
+/home/pedroca/projects/c#/api/src/Data/obj/Debug/netcoreapp2.2/Data.AssemblyInfo.cs
+/home/pedroca/projects/c#/api/src/Data/obj/Debug/netcoreapp2.2/Data.csproj.CopyComplete
+/home/pedroca/projects/c#/api/src/Data/obj/Debug/netcoreapp2.2/Data.dll
+/home/pedroca/projects/c#/api/src/Data/obj/Debug/netcoreapp2.2/Data.pdb

@@ -28,3 +28,7 @@
 /home/pedroca/projects/c#/api/src/Web/obj/Debug/netcoreapp2.2/Web.dll
 /home/pedroca/projects/c#/api/src/Web/obj/Debug/netcoreapp2.2/Web.pdb
 /home/pedroca/projects/c#/api/src/Web/obj/Debug/netcoreapp2.2/Web.csproj.CopyComplete
+/home/pedroca/projects/c#/api/src/Web/bin/Debug/netcoreapp2.2/Business.dll
+/home/pedroca/projects/c#/api/src/Web/bin/Debug/netcoreapp2.2/Data.dll
+/home/pedroca/projects/c#/api/src/Web/bin/Debug/netcoreapp2.2/Data.pdb
+/home/pedroca/projects/c#/api/src/Web/bin/Debug/netcoreapp2.2/Business.pdb
