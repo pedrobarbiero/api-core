@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Business.Interfaces;
 using Data.Context;
+using Data.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -35,11 +37,12 @@ namespace Web
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-
-            // services.AddDbContext<StockContext>(options => 
-            //     options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<ApplicationDbContext>(
+               options =>
+               {
+                   options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"],
+                       b => b.MigrationsAssembly("Web"));
+               });
 
             services.AddDbContext<StockContext>(
                options =>
@@ -54,6 +57,11 @@ namespace Web
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services.AddScoped<StockContext>();
+            services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<IProviderRepository, ProviderRepository>();
+            services.AddScoped<IAddressRepository, AddressRepository>();
 
         }
 
