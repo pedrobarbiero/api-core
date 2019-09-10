@@ -14,8 +14,8 @@ namespace Business.Services
         private readonly IProviderRepository _providerRepository;
         private readonly IAddressRepository _addressRepository;
 
-        public ProviderService(IProviderRepository providerRepository, 
-            IAddressRepository addressRepository, 
+        public ProviderService(IProviderRepository providerRepository,
+            IAddressRepository addressRepository,
             INotifier notifier) : base(notifier)
         {
             _providerRepository = providerRepository;
@@ -23,36 +23,38 @@ namespace Business.Services
         }
 
 
-        public async Task Add(Provider provider)
+        public async Task<bool> Add(Provider provider)
         {
 
             if (!ExecuteValidation(new ProviderValidation(), provider)
             && !ExecuteValidation(new AddressValidation(), provider.Address))
-                return;
+                return false;
 
             var providerDocument = await _providerRepository.Get(p => p.Document == provider.Document);
             if (providerDocument.Any())
             {
                 Notify($"Já existe o documento {provider.Document} cadastrado.");
-                return;
+                return false;
             }
 
             await _providerRepository.Add(provider);
+            return true;
         }
 
-        public async Task Delete(Guid id)
+        public async Task<bool> Delete(Guid id)
         {
             var providerProducts = await _providerRepository.GetProviderAddressProduct(id);
             if (providerProducts.Products.Any())
             {
                 Notify("O Fornecedor possui produtos cadastrados");
-                return;
+                return false;
             }
 
             await _providerRepository.Delete(id);
+            return true;
         }
 
-        public async Task Update(Provider provider)
+        public async Task<bool> Update(Provider provider)
         {
             var providerDocument = await _providerRepository.Get(p => p.Document == provider.Document
                 && p.Id != provider.Id);
@@ -60,10 +62,11 @@ namespace Business.Services
             if (providerDocument.Any())
             {
                 Notify($"Já existe o documento {provider.Document} cadastrado.");
-                return;
+                return false;
             }
 
             await _providerRepository.Update(provider);
+            return true;
         }
 
         public async Task UpdateAddress(Address address)

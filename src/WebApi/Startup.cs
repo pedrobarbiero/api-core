@@ -31,8 +31,7 @@ namespace WebApi
         {
             services.AddDbContext<StockContext>(options =>
             {
-                options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"],
-                     b => b.MigrationsAssembly("WebApi"));
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
 
             services.AddAutoMapper(typeof(Startup));

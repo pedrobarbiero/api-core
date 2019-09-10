@@ -9,26 +9,30 @@ namespace Business.Services
     public class ProductService : BaseService, IProductService
     {
         private readonly IProductRepository _repository;
-        public ProductService(IProductRepository productRepository, 
+        public ProductService(IProductRepository productRepository,
                 INotifier notifier) : base(notifier)
         {
             _repository = productRepository;
         }
-        public async Task Add(Product obj)
+        public async Task<bool> Add(Product obj)
         {
             if (ExecuteValidation(new ProductValidation(), obj))
-                await _repository.Add(obj);
+                return await _repository.Add(obj);
+
+            return false;
         }
 
-        public async Task Delete(Guid id)
+        public async Task<bool> Delete(Guid id)
         {
-            await _repository.Delete(id);
+            return await _repository.Delete(id);
         }
 
-        public async Task Update(Product obj)
+        public async Task<bool> Update(Product obj)
         {
             if (ExecuteValidation(new ProductValidation(), obj))
-                await _repository.Update(obj);
+                return await _repository.Update(obj);
+
+            return false;
         }
 
         public void Dispose()

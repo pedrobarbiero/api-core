@@ -6,6 +6,7 @@ namespace WebApi.DataTransferObjects
     public class ProductDTO
     {
         [Key]
+        public Guid Id { get; set; }
         public Guid ProviderId { get; set; }
 
         [Required(ErrorMessage = "O Campo {0} é obrigatório")]

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace WebApi.Migrations
+namespace Data.Migrations
 {
     [DbContext(typeof(StockContext))]
     partial class StockContextModelSnapshot : ModelSnapshot
@@ -106,6 +106,8 @@ namespace WebApi.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("varchar(100)");
+
+                    b.Property<int>("ProviderType");
 
                     b.HasKey("Id");
 

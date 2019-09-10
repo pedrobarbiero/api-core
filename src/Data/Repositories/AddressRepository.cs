@@ -20,5 +20,10 @@ namespace Data.Repositories
             return await _dbSet.AsNoTracking()
                         .FirstOrDefaultAsync(a => a.ProviderId == providerId);
         }
+
+        Task<Address> IAddressRepository.GetByProvider(Guid providerId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

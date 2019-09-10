@@ -6,8 +6,8 @@ namespace Business.Interfaces
 {
     public interface IService<TEntity> where TEntity : Entity
     {
-        Task Add(TEntity obj);
-        Task Update(TEntity obj);
-        Task Delete(Guid id);
+        Task<bool> Add(TEntity obj);
+        Task<bool> Update(TEntity obj);
+        Task<bool> Delete(Guid id);
     }
 }

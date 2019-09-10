@@ -3,7 +3,7 @@ using System;
 namespace Business.Models
 {
     public class Product : Entity
-    {
+    {        
         public Guid ProviderId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }

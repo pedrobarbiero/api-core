@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace WebApi.Migrations
+namespace Data.Migrations
 {
     public partial class initial : Migration
     {
@@ -18,6 +18,7 @@ namespace WebApi.Migrations
                     Id = table.Column<Guid>(nullable: false),
                     Name = table.Column<string>(type: "varchar(100)", nullable: false),
                     Document = table.Column<string>(type: "varchar(14)", nullable: false),
+                    ProviderType = table.Column<int>(nullable: false),
                     Active = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>

@@ -8,11 +8,11 @@ namespace Business.Interfaces
 {
     public interface IRepository<TEntity> : IDisposable where TEntity : Entity
     {
-        Task Add(TEntity obj);
+        Task<bool> Add(TEntity obj);
         Task<TEntity> GetById(Guid id);
         Task<List<TEntity>> GetAll();
-        Task Update(TEntity obj);
-        Task Delete(Guid id);
+        Task<bool> Update(TEntity obj);
+        Task<bool> Delete(Guid id);
         Task<IEnumerable<TEntity>> Get(Expression<Func<TEntity, bool>> predicate);
         Task<int> SaveChanges();
 

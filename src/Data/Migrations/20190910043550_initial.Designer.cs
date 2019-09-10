@@ -7,10 +7,10 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace WebApi.Migrations
+namespace Data.Migrations
 {
     [DbContext(typeof(StockContext))]
-    [Migration("20190908211924_initial")]
+    [Migration("20190910043550_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -108,6 +108,8 @@ namespace WebApi.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("varchar(100)");
+
+                    b.Property<int>("ProviderType");
 
                     b.HasKey("Id");
 

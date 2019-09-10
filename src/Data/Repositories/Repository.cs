@@ -37,21 +37,24 @@ namespace Data.Repositories
                         .FirstOrDefaultAsync(t => t.Id == id);
         }
 
-        public virtual async Task Add(TEntity obj)
+        public virtual async Task<bool> Add(TEntity obj)
         {
             _dbSet.Add(obj);
             await SaveChanges();
+            return true;
         }
-        public virtual async Task Update(TEntity obj)
+        public virtual async Task<bool> Update(TEntity obj)
         {
             _dbSet.Update(obj);
             await SaveChanges();
+            return true;
         }
 
-        public virtual async Task Delete(Guid id)
+        public virtual async Task<bool> Delete(Guid id)
         {
             _dbSet.Remove(new TEntity { Id = id });
             await SaveChanges();
+            return true;
         }
         public async Task<int> SaveChanges()
         {
