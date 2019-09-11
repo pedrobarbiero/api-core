@@ -11,7 +11,11 @@ namespace WebApi.Configuration
         {
             CreateMap<Provider, ProviderDTO>().ReverseMap();
             CreateMap<Address, AddressDTO>().ReverseMap();
-            CreateMap<Product, ProductDTO>().ReverseMap();
+            CreateMap<ProductDTO, Product>();
+
+            CreateMap<Product, ProductDTO>()
+                .ForMember(dest => dest.ProviderName,
+                           opt => opt.MapFrom(src => src.Provider.Name));
         }
     }
 }

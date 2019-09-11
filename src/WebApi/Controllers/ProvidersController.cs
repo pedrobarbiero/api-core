@@ -12,7 +12,8 @@ namespace WebApi.Controllers
     [Route("api/[controller]")]
     public class ProvidersController : MainController
     {
-        private readonly IProviderRepository _repository;
+        private readonly IProviderRepository _providerRepository;
+        private readonly IProviderRepository _addressRepository;
         private readonly IMapper _mapper;
         private readonly IProviderService _service;
         public ProvidersController(IProviderRepository repository,
@@ -20,7 +21,7 @@ namespace WebApi.Controllers
                                    IProviderService service,
                                    INotifier notifier) : base(notifier)
         {
-            _repository = repository;
+            _providerRepository = repository;
             _mapper = mapper;
             _service = service;
         }
@@ -28,14 +29,14 @@ namespace WebApi.Controllers
         [HttpGet]
         public async Task<IEnumerable<ProviderDTO>> GetAll()
         {
-            List<Provider> providers = await _repository.GetAll();
+            List<Provider> providers = await _providerRepository.GetAll();
             return _mapper.Map<IEnumerable<ProviderDTO>>(providers);
         }
 
         [HttpGet("{id:guid}")]
         public async Task<ActionResult<ProviderDTO>> Get(Guid id)
         {
-            Provider provider = await _repository.GetProviderAddressProduct(id);
+            Provider provider = await _providerRepository.GetProviderAddressProduct(id);
 
             if (provider == null)
                 return NotFound();
@@ -47,45 +48,66 @@ namespace WebApi.Controllers
         public async Task<ActionResult<ProviderDTO>> Create(ProviderDTO providerDTO)
         {
             if (!ModelState.IsValid)
-                return BadRequest();
+                return CustomResponse(ModelState);
 
             var provider = _mapper.Map<Provider>(providerDTO);
-            var result = await _service.Add(provider);
+            await _service.Add(provider);
 
-            if (!result)
-                return BadRequest();
-
-            return Ok(provider);
+            return CustomResponse(providerDTO);
         }
 
+        [HttpGet("get-address/{id:guid}")]
+        public async Task<ActionResult<AddressDTO>> GetAddresById(Guid id)
+        {
+            var addressDTO = _mapper.Map<AddressDTO>(await _addressRepository.GetById(id));
+            return Ok(addressDTO);
+        }
         [HttpPut]
         [Route("{id:guid}")]
         public async Task<ActionResult<ProviderDTO>> Update(Guid id, ProviderDTO providerDTO)
         {
             if (id != providerDTO.Id)
-                return BadRequest();
+            {
+                NotifyError($"O id do objeto({providerDTO.Id}) é diferente do informado({id}).");
+                return CustomResponse(providerDTO);
+            }
 
             if (!ModelState.IsValid)
-                return BadRequest();
+                return CustomResponse(ModelState);
 
             var provider = _mapper.Map<Provider>(providerDTO);
-            var result = await _service.Update(provider);
+            await _service.Update(provider);
 
-            if (!result)
-                return BadRequest();
+            return CustomResponse(providerDTO);
+        }
 
-            return Ok(provider);
+        [HttpPut("update-addres/{id:guid}")]
+        public async Task<ActionResult> UpdateAddress(Guid id, AddressDTO addressDTO)
+        {
+            if (id != addressDTO.Id)
+            {
+                NotifyError($"O id do objeto({addressDTO.Id}) é diferente do informado({id}).");
+                return CustomResponse(addressDTO);
+            }
+
+            if (!ModelState.IsValid)
+                return CustomResponse(ModelState);
+
+            var address = _mapper.Map<Address>(addressDTO);
+            await _service.UpdateAddress(address);
+
+            return CustomResponse(addressDTO);
         }
 
         [HttpDelete("{id:guid}")]
         public async Task<ActionResult<ProviderDTO>> Delete(Guid id)
         {
-            var provider = _repository.GetById(id);
+            var provider = _providerRepository.GetById(id);
             if (provider == null)
                 return NotFound();
 
             await _service.Delete(id);
-            return Ok(provider);
+            return CustomResponse();
         }
 
     }

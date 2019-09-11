@@ -23,7 +23,7 @@ namespace Data.Mappings
                 .IsRequired()
                 .HasColumnType("varchar(100)");
 
-            builder.ToTable("Produtos", "Stock");                
+            builder.ToTable("Products", "Stock");                
         }
     }
 }

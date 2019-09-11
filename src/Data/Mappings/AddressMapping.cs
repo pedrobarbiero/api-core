@@ -31,6 +31,7 @@ namespace Data.Mappings
                 .IsRequired()
                 .HasColumnType("varchar(8)");
 
+            builder.ToTable("Addresses", "Stock");
         }
     }
 }

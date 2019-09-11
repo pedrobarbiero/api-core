@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(StockContext))]
-    [Migration("20190910043550_initial")]
+    [Migration("20190911062657_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -59,7 +59,7 @@ namespace Data.Migrations
                     b.HasIndex("ProviderId")
                         .IsUnique();
 
-                    b.ToTable("Addresses");
+                    b.ToTable("Addresses","Stock");
                 });
 
             modelBuilder.Entity("Business.Models.Product", b =>
@@ -91,7 +91,7 @@ namespace Data.Migrations
 
                     b.HasIndex("ProviderId");
 
-                    b.ToTable("Produtos","Stock");
+                    b.ToTable("Products","Stock");
                 });
 
             modelBuilder.Entity("Business.Models.Provider", b =>

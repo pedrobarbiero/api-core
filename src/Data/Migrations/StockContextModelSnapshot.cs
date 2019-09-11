@@ -57,7 +57,7 @@ namespace Data.Migrations
                     b.HasIndex("ProviderId")
                         .IsUnique();
 
-                    b.ToTable("Addresses");
+                    b.ToTable("Addresses","Stock");
                 });
 
             modelBuilder.Entity("Business.Models.Product", b =>
@@ -89,7 +89,7 @@ namespace Data.Migrations
 
                     b.HasIndex("ProviderId");
 
-                    b.ToTable("Produtos","Stock");
+                    b.ToTable("Products","Stock");
                 });
 
             modelBuilder.Entity("Business.Models.Provider", b =>

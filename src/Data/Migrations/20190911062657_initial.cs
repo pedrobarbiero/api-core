@@ -28,6 +28,7 @@ namespace Data.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Addresses",
+                schema: "Stock",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
@@ -53,7 +54,7 @@ namespace Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Produtos",
+                name: "Products",
                 schema: "Stock",
                 columns: table => new
                 {
@@ -68,9 +69,9 @@ namespace Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Produtos", x => x.Id);
+                    table.PrimaryKey("PK_Products", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Produtos_Providers_ProviderId",
+                        name: "FK_Products_Providers_ProviderId",
                         column: x => x.ProviderId,
                         principalSchema: "Stock",
                         principalTable: "Providers",
@@ -80,24 +81,26 @@ namespace Data.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_Addresses_ProviderId",
+                schema: "Stock",
                 table: "Addresses",
                 column: "ProviderId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Produtos_ProviderId",
+                name: "IX_Products_ProviderId",
                 schema: "Stock",
-                table: "Produtos",
+                table: "Products",
                 column: "ProviderId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Addresses");
+                name: "Addresses",
+                schema: "Stock");
 
             migrationBuilder.DropTable(
-                name: "Produtos",
+                name: "Products",
                 schema: "Stock");
 
             migrationBuilder.DropTable(
