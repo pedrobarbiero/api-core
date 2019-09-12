@@ -1,8 +1,12 @@
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.ComponentModel.DataAnnotations;
+using WebApi.Extensions;
 
 namespace WebApi.DataTransferObjects
 {
+    [ModelBinder(typeof(JsonWithFileFormDataModelBinder), Name = "product")]
     public class ProductDTO
     {
         [Key]
@@ -17,6 +21,7 @@ namespace WebApi.DataTransferObjects
         public string Description { get; set; }
         public string Image { get; set; }
         public string ImageUpload { get; set; }
+        public IFormFile ImageUploadFile { get; set; }
 
         [Required(ErrorMessage = "O campo {0} é obrigatório.")]
         public decimal Value { get; set; }

@@ -91,6 +91,42 @@ namespace WebApi.Controllers
             return true;
         }
 
+        [HttpPost("product-image")]
+        public async Task<ActionResult<ProductDTO>> CreateProductImage(ProductDTO productDTO)
+        {
+            if (!ModelState.IsValid)
+                return CustomResponse(ModelState);
+
+            var prefix = Guid.NewGuid() + "_";
+            
+            if (! await UploadFile(productDTO.ImageUploadFile, prefix))
+                return CustomResponse();
+
+            productDTO.Image = prefix + productDTO.ImageUploadFile.FileName;
+            await _productService.Add(_mapper.Map<Product>(productDTO));
+
+            return CustomResponse();
+        }
+
+        private async Task<bool> UploadFile(IFormFile file, string prefix)
+        {
+            if (file == null || file.Length == 0)
+            {
+                NotifyError("Imagem obrigatória");
+                return false;
+            }
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", prefix + file.FileName);
+            if (System.IO.File.Exists(path))
+            {
+                NotifyError("Imagem já cadastrada");
+                return false;
+            }
+
+            using (var stream = new FileStream(path, FileMode.Create))
+                await file.CopyToAsync(stream);
+
+            return true;
+        }
 
     }
 }
