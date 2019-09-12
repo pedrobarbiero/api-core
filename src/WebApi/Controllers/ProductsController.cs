@@ -52,6 +52,39 @@ namespace WebApi.Controllers
             return CustomResponse();
         }
 
+        [HttpPut("{id:guid}")]
+        public async Task<ActionResult<ProductDTO>> Update(Guid id, ProductDTO productDTO)
+        {
+            if (id != productDTO.Id)
+            {
+                NotifyError("O Id do objeto é diferente do informado");
+                return CustomResponse(productDTO);
+            }
+
+            var productUpdate = await _productRepository.GetById(id);
+            productDTO.Image = productUpdate.Image;
+
+            if (!ModelState.IsValid)
+                return CustomResponse(ModelState);
+
+            if (productDTO.ImageUploadFile != null)
+            {
+                var imgName = Guid.NewGuid() + "_" + productDTO.Image;
+                if (! await UploadFile(productDTO.ImageUploadFile, imgName))                
+                    return CustomResponse(ModelState);
+
+                productUpdate.Image = imgName;                
+            }
+
+            productUpdate.Name = productDTO.Name;
+            productUpdate.Description = productDTO.Description;
+            productUpdate.Value = productDTO.Value;
+            productUpdate.Active = productDTO.Active;
+
+            await _productService.Update(productUpdate);                       
+            return CustomResponse(productDTO);
+        }
+
         [HttpPost]
         public async Task<ActionResult<ProductDTO>> Create(ProductDTO productDTO)
         {
@@ -98,8 +131,8 @@ namespace WebApi.Controllers
                 return CustomResponse(ModelState);
 
             var prefix = Guid.NewGuid() + "_";
-            
-            if (! await UploadFile(productDTO.ImageUploadFile, prefix))
+
+            if (!await UploadFile(productDTO.ImageUploadFile, prefix))
                 return CustomResponse();
 
             productDTO.Image = prefix + productDTO.ImageUploadFile.FileName;
