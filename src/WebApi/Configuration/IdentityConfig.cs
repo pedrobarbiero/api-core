@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using WebApi.Data;
+using WebApi.Extensions;
 
 namespace WebApi.Configuration
 {
@@ -16,6 +17,7 @@ namespace WebApi.Configuration
             services.AddDefaultIdentity<IdentityUser>()
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<AppDbContext>()
+                .AddErrorDescriber<IdentityPortugueseMessages>()
                 .AddDefaultTokenProviders();
 
             return services;

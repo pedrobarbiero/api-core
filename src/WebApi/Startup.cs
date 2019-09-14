@@ -24,7 +24,7 @@ namespace WebApi
         {
             services.AddDbContext<StockContext>(options =>
             {
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));                
             });
 
             services.AddIdentityConfiguration(Configuration);

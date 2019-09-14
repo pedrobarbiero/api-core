@@ -1,14 +1,13 @@
-using System;
-using System.Linq;
-using System.Reflection;
 using Business.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using System.Linq;
 
 namespace Data.Context
 {
     public class StockContext : DbContext
     {
-        public StockContext(DbContextOptions options) : base(options)
+        public StockContext(DbContextOptions<StockContext> options) : base(options)
         { }
 
         public DbSet<Product> Products { get; set; }
