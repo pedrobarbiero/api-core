@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Business.Interfaces;
 using Business.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.DataTransferObjects;
@@ -13,6 +14,7 @@ using WebApi.DataTransferObjects;
 namespace WebApi.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
     public class ProductsController : MainController
     {
@@ -35,6 +37,7 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<ProductDTO>>> GetAll()
         {
             var products = await _productRepository.GetAll();
