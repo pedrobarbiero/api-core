@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.DataTransferObjects;
+using WebApi.Extensions;
 
 namespace WebApi.Controllers
 {
@@ -88,7 +89,7 @@ namespace WebApi.Controllers
             return CustomResponse(productDTO);
         }
 
-        [HttpPost]
+        [HttpPost]        
         public async Task<ActionResult<ProductDTO>> Create(ProductDTO productDTO)
         {
             if (!ModelState.IsValid)

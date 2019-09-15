@@ -4,7 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using WebApi.DataTransferObjects;
@@ -46,7 +48,7 @@ namespace WebApi.Controllers
             if (result.Succeeded)
             {
                 await _signInManager.SignInAsync(user, false);
-                return CustomResponse(GenerateJWT());
+                return CustomResponse(await GenerateJWT(user.Email));
             }
             foreach (var error in result.Errors)
             {
@@ -67,7 +69,7 @@ namespace WebApi.Controllers
                 lockoutOnFailure: true);
 
             if (result.Succeeded)
-                return CustomResponse(GenerateJWT());
+                return CustomResponse(await GenerateJWT(loginUserDTO.Email));
 
             if (result.IsLockedOut)
             {
@@ -79,8 +81,24 @@ namespace WebApi.Controllers
             return CustomResponse(loginUserDTO);
         }
 
-        private string GenerateJWT()
+        private async Task<string> GenerateJWT(string email)
         {
+            IdentityUser user = await _userManager.FindByEmailAsync(email);
+            IList<Claim> claims = await _userManager.GetClaimsAsync(user);
+            IEnumerable<string> userRoles = await _userManager.GetRolesAsync(user);
+
+            claims.Add(new Claim(JwtRegisteredClaimNames.Sub, user.Id));
+            claims.Add(new Claim(JwtRegisteredClaimNames.Email, user.Email));
+            claims.Add(new Claim(JwtRegisteredClaimNames.Jti, new Guid().ToString()));
+            claims.Add(new Claim(JwtRegisteredClaimNames.Nbf, ToUnixEpochDate(DateTime.UtcNow).ToString()));
+            claims.Add(new Claim(JwtRegisteredClaimNames.Iat, ToUnixEpochDate(DateTime.UtcNow).ToString(), ClaimValueTypes.Integer64));
+            foreach (var userRole in userRoles)
+            {
+                claims.Add(new Claim("role", userRole));
+            }
+            var claimsIdentity = new ClaimsIdentity();
+            claimsIdentity.AddClaims(claims);
+
             var tokenHandler = new JwtSecurityTokenHandler();
             byte[] key = Encoding.ASCII.GetBytes(_appSettings.Secret);
 
@@ -88,13 +106,16 @@ namespace WebApi.Controllers
             {
                 Issuer = _appSettings.Issuer,
                 Audience = _appSettings.ValidIn,
+                Subject = claimsIdentity,
                 Expires = DateTime.UtcNow.AddHours(_appSettings.ExpirationInHours),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),
                     algorithm: SecurityAlgorithms.HmacSha256)
             });
 
             return tokenHandler.WriteToken(token);
-
         }
+
+        private static long ToUnixEpochDate(DateTime date) =>
+            (long)Math.Round((date.ToUniversalTime() - new DateTimeOffset(1970, 1, 1, 0, 0, 0, TimeSpan.Zero)).TotalSeconds);
     }
 }

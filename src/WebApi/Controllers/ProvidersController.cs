@@ -1,11 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using AutoMapper;
 using Business.Interfaces;
 using Business.Models;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using WebApi.DataTransferObjects;
+using WebApi.Extensions;
 
 namespace WebApi.Controllers
 {
@@ -45,6 +46,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPost]
+        [ClaimsAuthorize("Provider", "Create")]
         public async Task<ActionResult<ProviderDTO>> Create(ProviderDTO providerDTO)
         {
             if (!ModelState.IsValid)
@@ -64,6 +66,7 @@ namespace WebApi.Controllers
         }
         [HttpPut]
         [Route("{id:guid}")]
+        [ClaimsAuthorize("Provider", "Update")]
         public async Task<ActionResult<ProviderDTO>> Update(Guid id, ProviderDTO providerDTO)
         {
             if (id != providerDTO.Id)
@@ -82,6 +85,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPut("update-addres/{id:guid}")]
+        [ClaimsAuthorize("Provider", "Update")]
         public async Task<ActionResult> UpdateAddress(Guid id, AddressDTO addressDTO)
         {
             if (id != addressDTO.Id)
@@ -100,6 +104,8 @@ namespace WebApi.Controllers
         }
 
         [HttpDelete("{id:guid}")]
+        [ClaimsAuthorize("Provider", "Delete")]
+
         public async Task<ActionResult<ProviderDTO>> Delete(Guid id)
         {
             var provider = _providerRepository.GetById(id);
