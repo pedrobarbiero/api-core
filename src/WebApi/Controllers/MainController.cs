@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace WebApi.Controllers
 {
-
     [ApiController]
     public abstract class MainController : ControllerBase
     {

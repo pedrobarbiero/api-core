@@ -1,22 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Business.Interfaces;
 using Business.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Threading.Tasks;
+using WebApi.Controllers;
 using WebApi.DataTransferObjects;
-using WebApi.Extensions;
 
-namespace WebApi.Controllers
+namespace WebApi.V2.Controllers
 {
-    [Route("api/[controller]")]
     [Authorize]
-    [ApiController]
+    [ApiVersion("2.0")]
+    [Route("api/v{version:apiVersion}/[controller]")]    
     public class ProductsController : MainController
     {
         private readonly IProductRepository _productRepository;

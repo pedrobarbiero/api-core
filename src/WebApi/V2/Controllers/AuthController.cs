@@ -10,12 +10,14 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using WebApi.Controllers;
 using WebApi.DataTransferObjects;
 using WebApi.Extensions;
 
-namespace WebApi.Controllers
-{
-    [Route("api")]
+namespace WebApi.V2.Controllers
+{    
+    [ApiVersion("2.0")]
+    [Route("api/v{version:apiVersion}")]
     public class AuthController : MainController
     {
         private readonly SignInManager<IdentityUser> _signInManager;
@@ -24,7 +26,8 @@ namespace WebApi.Controllers
         public AuthController(INotifier notifier,
             SignInManager<IdentityUser> signInManager,
             UserManager<IdentityUser> userManager,
-            IOptions<AppSettings> appSettings) : base(notifier)
+            IOptions<AppSettings> appSettings,
+            IUser user) : base(notifier, user)
         {
             _signInManager = signInManager;
             _userManager = userManager;

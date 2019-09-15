@@ -1,31 +1,37 @@
 using AutoMapper;
 using Business.Interfaces;
 using Business.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using WebApi.Controllers;
 using WebApi.DataTransferObjects;
 using WebApi.Extensions;
 
-namespace WebApi.Controllers
+namespace WebApi.V1.Controllers
 {
-    [Route("api/[controller]")]
+    [Authorize]
+    [ApiVersion("1.0", Deprecated = true)]
+    [Route("api/v{version:apiVersion}/[controller]")]
     public class ProvidersController : MainController
     {
         private readonly IProviderRepository _providerRepository;
-        private readonly IProviderRepository _addressRepository;
+        private readonly IAddressRepository _addressRepository;
         private readonly IMapper _mapper;
         private readonly IProviderService _service;
         public ProvidersController(IProviderRepository repository,
                                    IMapper mapper,
                                    IProviderService service,
+                                   IAddressRepository addressRepository,
                                    INotifier notifier,
                                    IUser user) : base(notifier, user)
         {
             _providerRepository = repository;
             _mapper = mapper;
             _service = service;
+            _addressRepository = addressRepository;
         }
 
         [HttpGet]
