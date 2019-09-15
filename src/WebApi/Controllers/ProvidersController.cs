@@ -20,7 +20,8 @@ namespace WebApi.Controllers
         public ProvidersController(IProviderRepository repository,
                                    IMapper mapper,
                                    IProviderService service,
-                                   INotifier notifier) : base(notifier)
+                                   INotifier notifier,
+                                   IUser user) : base(notifier, user)
         {
             _providerRepository = repository;
             _mapper = mapper;

@@ -12,11 +12,17 @@ namespace WebApi.Controllers
     public abstract class MainController : ControllerBase
     {
         private readonly INotifier _notifier;
+        private readonly IUser _appUser;
 
-        public MainController(INotifier notifier)
+        public MainController(INotifier notifier, IUser appUser)
         {
             _notifier = notifier;
+            _appUser = appUser;
         }
+
+        protected bool IsAuthenticated => _appUser.IsAuthenticated;
+        protected Guid UserId => _appUser.UserID;
+
         protected ActionResult CustomResponse(ModelStateDictionary modelState)
         {
             if (!modelState.IsValid)

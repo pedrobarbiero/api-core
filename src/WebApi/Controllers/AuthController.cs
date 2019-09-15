@@ -6,6 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -81,7 +82,7 @@ namespace WebApi.Controllers
             return CustomResponse(loginUserDTO);
         }
 
-        private async Task<string> GenerateJWT(string email)
+        private async Task<LoginResponseDTO> GenerateJWT(string email)
         {
             IdentityUser user = await _userManager.FindByEmailAsync(email);
             IList<Claim> claims = await _userManager.GetClaimsAsync(user);
@@ -112,7 +113,21 @@ namespace WebApi.Controllers
                     algorithm: SecurityAlgorithms.HmacSha256)
             });
 
-            return tokenHandler.WriteToken(token);
+            return new LoginResponseDTO
+            {
+                AcessToken = tokenHandler.WriteToken(token),
+                ExpiresIn = TimeSpan.FromHours(_appSettings.ExpirationInHours).TotalSeconds,
+                UserToken = new UserTokenDTO
+                {
+                    Id = user.Id,
+                    Email = user.Email,
+                    Claims = claims.Select(c => new ClaimDTO
+                    {
+                        Type = c.Type,
+                        Value = c.Value
+                    })
+                }
+            };
         }
 
         private static long ToUnixEpochDate(DateTime date) =>

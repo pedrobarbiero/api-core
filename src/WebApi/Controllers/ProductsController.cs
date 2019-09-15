@@ -22,7 +22,11 @@ namespace WebApi.Controllers
         private readonly IProductRepository _productRepository;
         private readonly IProductService _productService;
         private readonly IMapper _mapper;
-        public ProductsController(INotifier notifier, IProductRepository productRepository, IMapper mapper, IProductService productService) : base(notifier)
+        public ProductsController(INotifier notifier,
+            IProductRepository productRepository,
+            IMapper mapper,
+            IProductService productService,
+            IUser user) : base(notifier, user)
         {
             _productRepository = productRepository;
             _mapper = mapper;
@@ -74,10 +78,10 @@ namespace WebApi.Controllers
             if (productDTO.ImageUploadFile != null)
             {
                 var imgName = Guid.NewGuid() + "_" + productDTO.Image;
-                if (! await UploadFile(productDTO.ImageUploadFile, imgName))                
+                if (!await UploadFile(productDTO.ImageUploadFile, imgName))
                     return CustomResponse(ModelState);
 
-                productUpdate.Image = imgName;                
+                productUpdate.Image = imgName;
             }
 
             productUpdate.Name = productDTO.Name;
@@ -85,11 +89,11 @@ namespace WebApi.Controllers
             productUpdate.Value = productDTO.Value;
             productUpdate.Active = productDTO.Active;
 
-            await _productService.Update(productUpdate);                       
+            await _productService.Update(productUpdate);
             return CustomResponse(productDTO);
         }
 
-        [HttpPost]        
+        [HttpPost]
         public async Task<ActionResult<ProductDTO>> Create(ProductDTO productDTO)
         {
             if (!ModelState.IsValid)

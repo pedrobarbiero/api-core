@@ -4,7 +4,9 @@ using Business.Notifications;
 using Business.Services;
 using Data.Context;
 using Data.Repositories;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using WebApi.Extensions;
 
 namespace WebApi.Configuration
 {
@@ -21,6 +23,9 @@ namespace WebApi.Configuration
 
             services.AddScoped<IProviderService, ProviderService>();
             services.AddScoped<IProductService, ProductService>();
+
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddScoped<IUser, AspNetUser>();
 
             return services;
         }
